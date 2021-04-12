@@ -1,0 +1,361 @@
+.header_background {
+    background: #007CC7!important;
+}
+
+.header_site_name {
+    color: #ffffff!important;
+    font-size: 28px;
+}
+
+.header_button {
+    color: #ffffff!important;
+}
+.header_button:hover {
+    color: #ffffff!important;
+    box-shadow: 1px 2px #4DA8DA;
+}
+
+.header_second_level_background {
+    background: #ffffff
+}
+
+.nav-item.post_ad_button {
+    padding-right: 50px;
+}
+
+.col-lg-12.search_bar {
+    padding-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.searchCity {
+    cursor: pointer;
+}
+
+.user_category {
+    margin-left: 0px;
+    position: relative;
+    bottom: auto;
+    overflow-x: hidden;
+    max-height: 90%;
+}
+
+.user_category li {
+    width: 100%;
+    padding: 0px;
+    border: none;
+    border-bottom: 1px solid #ececec;
+    margin-bottom: 0;
+    position: static;
+    float: left;
+    list-style-type: none;
+}
+
+.user_category li a, .user_category li span {
+    text-decoration: none;
+    transition-duration: .3s;
+    padding: 2px 5px;
+    float: left;
+    width: 100%;
+    color: #333;
+}
+
+.user_category li:hover a, .user_category li:hover i, .user_category li:hover span {
+    background-color: #007CC7;
+    color: #ffffff;
+    cursor: pointer;
+    transition: all .1s ease;
+}
+
+.user_category li i {
+    color: #007CC7;
+    text-align: center;
+    padding: 5px 5px;
+    width: 50px;
+}
+
+.user_category li a p {
+    padding-left: 15px;
+}
+
+.user_category.fa-ul {
+    margin-left: 0!important;
+}
+
+.card-body.card-categories {
+    padding: 0;
+}
+
+.display_ad_card {
+    text-align: center;
+}
+
+.display_ad_price {
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.dropdown-menu.city_dropdown{
+    display: block!important;
+    margin-left: 15px;
+    margin-top: -15px;
+    width: 45%;
+}
+
+.dropdown-menu.game_dropdown{
+    display: block!important;
+    margin-left: 15px;
+    margin-top: -15px;
+    width: 96%;
+}
+
+.fa-ul > li:nth-child(2) {
+    display: none;
+}
+
+#post-ad_categories:first-child {
+    display: none;
+}
+
+#post-ad_categories:nth-child(2) {
+    display: block!important;
+}
+
+.no_display {
+    display: none;
+}
+
+body {
+    background-color: #12232E;
+}
+
+.card-header {
+    background: #007CC7!important;
+}
+
+.btn.btn-default {
+    background-color: #007CC7;
+}
+
+.btn.btn-default:hover {
+    background-color: #4DA8DA;
+}
+
+.choose_bategory_h {
+    padding: 10px;
+    text-align: center;
+    color: #6d6969
+}
+
+.user_ads_display {
+    padding:10px!important;
+    width:100%;
+    height:250px;
+}
+
+.card_h6 {
+    height: 50px;
+}
+
+.col-md-3.ad_block {
+    border: 3px solid #007CC7;
+    margin-bottom: 10px;
+    margin-left: 2%;
+    margin-right: 2%;
+    height: 440px;
+    max-width: fit-content;
+}
+
+.row.ads_row {
+    display: grid;
+    gap: 10px;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.view_ads_link {
+    background-color: #007CC7;
+    color: white;
+    padding: 1em 1.5em;
+    border-radius: 8px;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+.view_ads_link_myAds {
+    background-color: #007CC7;
+    color: white;
+    padding: 1em .5em;
+    border-radius: 8px;
+    text-decoration: none;
+    text-transform: uppercase;
+    margin-right: 5px;
+}
+
+.view_games_link_myGames {
+    background-color: #007CC7;
+    color: white;
+    padding: .1em .5em;
+    border-radius: 8px;
+    text-decoration: none;
+    text-transform: uppercase;
+    margin-right: 5px;
+    float: right;
+}
+
+.view_ads_link:hover, .view_ads_link_myAds:hover, .view_games_link_myGames:hover {
+    background-color: #4DA8DA;
+    text-decoration: none;
+    color: white;
+}
+
+.nav-link.dropdown-toggle.dropdown_text {
+    color: white;
+}
+
+.card-header, .btn.btn-default {
+    color: white;
+}
+
+.productView_more-photos {
+    margin-top: 10px;
+    border: 5px solid #ebebeb;
+    padding: 5px;
+}
+
+.productView_main, .productView_small {
+    border: 5px solid #ebebeb;
+}
+
+.productView_main {
+    width: 470px;
+    height: 550px;
+}
+
+.list-group.full_width {
+    width: 100%;
+}
+
+.btn.btn-default.comment_button {
+    float: right;
+    margin: 20px 0;
+}
+
+.comment_box {
+    position: relative;
+    height: auto;
+    margin: 20px 0;
+    padding: 5px;
+    background-color: #DADADA;
+    border-radius: 3px;
+    border: 5px solid #ccc;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.after_comment {
+    display: grid;
+    grid-template-columns: 0fr 1fr 0fr;
+    font-size: 16px;
+}
+
+.write_comment_margin {
+    margin-top: 20px;
+}
+
+.btn.btn-primary.rent_button {
+    width: 100%;
+    margin-bottom: 5px;
+}
+
+.card {
+    margin-bottom: 10px;
+}
+
+.videoWrapper {
+    position : relative;
+}
+
+.videoWrapper:after {
+    content  : "";
+    position : absolute;
+    z-index  : 1;
+    bottom   : 0;
+    left     : 0;
+    pointer-events   : none;
+    background-image : linear-gradient(to bottom,
+    rgba(255,255,255, 0),
+    rgba(255,255,255, 1) 90%);
+    width    : 100%;
+    height   : 10em;
+}
+
+.game_info {
+    width: 470px;
+}
+
+.card-body.productView_info {
+    margin-top: -300px;
+    z-index: 999
+}
+
+.card.border-secondary.wb-3 {
+    border: 1px solid #ccc!important;
+}
+
+.small_font {
+    font-size: 12px;
+}
+
+.col-lg-4.search_name {
+    padding-left: 0
+}
+
+.form_padding_left {
+    padding-left: 20px
+}
+
+.h1_padding {
+    padding: 10px 10px;
+}
+
+.alert_padding {
+    padding: 5px;
+}
+
+.btn-primary.rent_button.half_width {
+    width: 50%;
+    margin-left: 10px;
+}
+
+.row_negative_margin {
+    margin-left: -5px;
+}
+
+.top_margin {
+    margin-top: 5px
+}
+
+.arrow_margin {
+    margin-right: 10px;
+}
+
+@media only screen and (max-width: 992px) {
+    .card-body.productView_info {
+        margin-top: 0;
+    }
+
+    .productView_main {
+        width: 100%;
+        height: auto;
+    }
+
+    .game_info {
+        width: unset;
+    }
+
+    .form-group.row.mobile_search {
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
