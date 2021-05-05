@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Input;
 use DB;
 use App\Models\Advertisement;
+use App\Models\RentDates;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -71,15 +72,6 @@ class UserController extends Controller
             $ads->priceForMonth = $request -> input('priceForMonth');
             $ads->city = $request -> input('city');
             $ads->sellerId = $userid;
-            $ads->buyerId = null;
-            $ads->start_date = null;
-            $ads->end_date = null;
-            $ads->buyerId2 = null;
-            $ads->start_date2 = null;
-            $ads->end_date2 = null;
-            $ads->buyerId3 = null;
-            $ads->start_date3 = null;
-            $ads->end_date3 = null;
             $ads->photos = $image;
 
             $ads->save();
@@ -114,7 +106,7 @@ class UserController extends Controller
         }
     }
 
-    public function viewAds($id) {
+    public function viewAds($mainCategory, $id) {
         $categories = DB::table('main_categories')
             ->select('main_categories.id','main_categories.mainCategory','icons.icons')
             ->join('icons','icons.id', '=', 'main_categories.id')
@@ -147,6 +139,8 @@ class UserController extends Controller
                     ->select('users.id', 'users.name', 'users.email', 'users.city', 'advertisements.sellerId')
                     ->join('advertisements','advertisements.sellerId', '=', 'users.id')
                     ->get();
+        $spec_user = DB::table('users')
+                    ->get();
         $subcategory = DB::table('sub_categories')
                     ->select('sub_categories.id', 'sub_categories.subCategory', 'games.sub_CategoryId')
                     ->join('games','games.sub_CategoryId', '=', 'sub_categories.id')
@@ -163,7 +157,11 @@ class UserController extends Controller
                     ->select('users.id', 'users.name')
                     ->join('comments', 'comments.userId', '=', 'users.id')
                     ->get();
-        return view('user.productView', ['product'=>$product, 'user'=>$user, 'subcategory'=>$subcategory, 'games'=>$games, 'comments'=>$comments, 'commentUser'=>$commentUser]);
+        $rent_dates = DB::table('rent_dates')
+                    ->select('rent_dates.id', 'rent_dates.advertisementId', 'rent_dates.buyerId', 'rent_dates.start_date', 'rent_dates.end_date', 'rent_dates.status')
+                    ->join('advertisements', 'advertisements.id', '=', 'rent_dates.advertisementId')
+                    ->get();
+        return view('user.productView', ['product'=>$product, 'user'=>$user, 'subcategory'=>$subcategory, 'games'=>$games, 'comments'=>$comments, 'commentUser'=>$commentUser, 'rent_dates'=>$rent_dates, 'spec_user'=>$spec_user]);
     }
 
     public function profile($id) {
@@ -208,21 +206,15 @@ class UserController extends Controller
         $myAds = DB::table('advertisements')
             -> where(['sellerId' => $id])
             -> get();
-        $ads = DB::table('advertisements')
-            -> get();
+        $myAdsRent = DB::table('advertisements')
+            ->select('advertisements.id','advertisements.photos','advertisements.sellerId','advertisements.gameId','rent_dates.buyerId','rent_dates.advertisementId','rent_dates.start_date','rent_dates.end_date', 'rent_dates.status')
+            ->join('rent_dates','rent_dates.advertisementId', '=', 'advertisements.id')
+            ->get();
         $users = DB::table('users')
-            ->select('users.id','users.name','advertisements.buyerId')
-            ->join('advertisements','advertisements.buyerId', '=', 'users.id')
+            ->select('users.id','users.name','rent_dates.buyerId')
+            ->join('rent_dates','rent_dates.buyerId', '=', 'users.id')
             ->get();
-        $users2 = DB::table('users')
-            ->select('users.id','users.name','advertisements.buyerId2')
-            ->join('advertisements','advertisements.buyerId2', '=', 'users.id')
-            ->get();
-        $users3 = DB::table('users')
-            ->select('users.id','users.name','advertisements.buyerId3')
-            ->join('advertisements','advertisements.buyerId3', '=', 'users.id')
-            ->get();
-        return view('user.myAds', ['myAds'=>$myAds, 'ads'=>$ads, 'users'=>$users, 'users2'=>$users2, 'users3'=>$users3]);
+        return view('user.myAds', ['myAds'=>$myAds, 'myAdsRent'=>$myAdsRent, 'users'=>$users]);
     }
 
     public function editAd($id) {
@@ -314,44 +306,14 @@ class UserController extends Controller
             'forADayStart' => 'required',
         ]);
         $userid = Auth::user()->getId();
-        $ads = Advertisement::find($id);
-        $ads->update([
-            $ads->buyerId = $userid,
-            $ads->start_date = $request->input('forADayStart'),
-            $ads->end_date = date('Y-m-d', strtotime($ads->start_date . ' +1 day')),
-            $ads->save()
-        ]);
-        return redirect('/product/view/' .$id)->with('success','Išsinuomavote žaidimą dienai!');
-    }
-
-    public function rentForADay2(Request $request, $id) {
-        $this->validate($request, [
-            'forADayStart2' => 'required',
-        ]);
-        $userid = Auth::user()->getId();
-        $ads = Advertisement::find($id);
-        $ads->update([
-            $ads->buyerId2 = $userid,
-            $ads->start_date2 = $request->input('forADayStart2'),
-            $ads->end_date2 = date('Y-m-d', strtotime($ads->start_date2 . ' +1 day')),
-            $ads->save()
-        ]);
-        return redirect('/product/view/' .$id)->with('success','Išsinuomavote žaidimą dienai!');
-    }
-
-    public function rentForADay3(Request $request, $id) {
-        $this->validate($request, [
-            'forADayStart3' => 'required',
-        ]);
-        $userid = Auth::user()->getId();
-        $ads = Advertisement::find($id);
-        $ads->update([
-            $ads->buyerId3 = $userid,
-            $ads->start_date3 = $request->input('forADayStart3'),
-            $ads->end_date3 = date('Y-m-d', strtotime($ads->start_date3 . ' +1 day')),
-            $ads->save()
-        ]);
-        return redirect('/product/view/' .$id)->with('success','Išsinuomavote žaidimą dienai!');
+        $rent_dates = new RentDates;
+        $rent_dates->advertisementId = $id;
+        $rent_dates->buyerId = $userid;
+        $rent_dates->start_date = $request->input('forADayStart');
+        $rent_dates->end_date = date('Y-m-d', strtotime($rent_dates->start_date . ' +1 day'));
+        $rent_dates->status = 'Rezervuota';
+        $rent_dates->save();
+        return redirect('/product/view/' .$id)->with('success','Išsiuntėte užklausą dėl žaidimo nuomos dienai!');
     }
 
     public function rentForThreeDays(Request $request, $id) {
@@ -359,44 +321,14 @@ class UserController extends Controller
             'forThreeDaysStart' => 'required',
         ]);
         $userid = Auth::user()->getId();
-        $ads = Advertisement::find($id);
-        $ads->update([
-            $ads->buyerId = $userid,
-            $ads->start_date = $request->input('forThreeDaysStart'),
-            $ads->end_date = date('Y-m-d', strtotime($ads->start_date . ' +3 days')),
-            $ads->save()
-        ]);
-        return redirect('/product/view/' .$id)->with('success','Išsinuomavote žaidimą trims dienoms!');
-    }
-
-    public function rentForThreeDays2(Request $request, $id) {
-        $this->validate($request, [
-            'forThreeDaysStart2' => 'required',
-        ]);
-        $userid = Auth::user()->getId();
-        $ads = Advertisement::find($id);
-        $ads->update([
-            $ads->buyerId2 = $userid,
-            $ads->start_date2 = $request->input('forThreeDaysStart2'),
-            $ads->end_date2 = date('Y-m-d', strtotime($ads->start_date2 . ' +3 days')),
-            $ads->save()
-        ]);
-        return redirect('/product/view/' .$id)->with('success','Išsinuomavote žaidimą trims dienoms!');
-    }
-
-    public function rentForThreeDays3(Request $request, $id) {
-        $this->validate($request, [
-            'forThreeDaysStart3' => 'required',
-        ]);
-        $userid = Auth::user()->getId();
-        $ads = Advertisement::find($id);
-        $ads->update([
-            $ads->buyerId3 = $userid,
-            $ads->start_date3 = $request->input('forThreeDaysStart3'),
-            $ads->end_date3 = date('Y-m-d', strtotime($ads->start_date3 . ' +3 days')),
-            $ads->save()
-        ]);
-        return redirect('/product/view/' .$id)->with('success','Išsinuomavote žaidimą trims dienoms!');
+        $rent_dates = new RentDates;
+        $rent_dates->advertisementId = $id;
+        $rent_dates->buyerId = $userid;
+        $rent_dates->start_date = $request->input('forThreeDaysStart');
+        $rent_dates->end_date = date('Y-m-d', strtotime($rent_dates->start_date . ' +3 days'));
+        $rent_dates->status = 'Rezervuota';
+        $rent_dates->save();
+        return redirect('/product/view/' .$id)->with('success','Išsiuntėte užklausą dėl žaidimo nuomos trims dienoms!');
     }
 
     public function rentForAWeek(Request $request, $id) {
@@ -404,44 +336,14 @@ class UserController extends Controller
             'forAWeekStart' => 'required',
         ]);
         $userid = Auth::user()->getId();
-        $ads = Advertisement::find($id);
-        $ads->update([
-            $ads->buyerId = $userid,
-            $ads->start_date = $request->input('forAWeekStart'),
-            $ads->end_date = date('Y-m-d', strtotime($ads->start_date . ' +7 days')),
-            $ads->save()
-        ]);
-        return redirect('/product/view/' .$id)->with('success','Išsinuomavote žaidimą savaitei!');
-    }
-
-    public function rentForAWeek2(Request $request, $id) {
-        $this->validate($request, [
-            'forAWeekStart2' => 'required',
-        ]);
-        $userid = Auth::user()->getId();
-        $ads = Advertisement::find($id);
-        $ads->update([
-            $ads->buyerId2 = $userid,
-            $ads->start_date2 = $request->input('forAWeekStart2'),
-            $ads->end_date2 = date('Y-m-d', strtotime($ads->start_date2 . ' +7 days')),
-            $ads->save()
-        ]);
-        return redirect('/product/view/' .$id)->with('success','Išsinuomavote žaidimą savaitei!');
-    }
-
-    public function rentForAWeek3(Request $request, $id) {
-        $this->validate($request, [
-            'forAWeekStart3' => 'required',
-        ]);
-        $userid = Auth::user()->getId();
-        $ads = Advertisement::find($id);
-        $ads->update([
-            $ads->buyerId3 = $userid,
-            $ads->start_date3 = $request->input('forAWeekStart3'),
-            $ads->end_date3 = date('Y-m-d', strtotime($ads->start_date3 . ' +7 days')),
-            $ads->save()
-        ]);
-        return redirect('/product/view/' .$id)->with('success','Išsinuomavote žaidimą savaitei!');
+        $rent_dates = new RentDates;
+        $rent_dates->advertisementId = $id;
+        $rent_dates->buyerId = $userid;
+        $rent_dates->start_date = $request->input('forAWeekStart');
+        $rent_dates->end_date = date('Y-m-d', strtotime($rent_dates->start_date . ' +7 days'));
+        $rent_dates->status = 'Rezervuota';
+        $rent_dates->save();
+        return redirect('/product/view/' .$id)->with('success','Išsiuntėte užklausą dėl žaidimo nuomos savaitei!');
     }
 
     public function rentForAMonth(Request $request, $id) {
@@ -449,80 +351,28 @@ class UserController extends Controller
             'forAMonthStart' => 'required',
         ]);
         $userid = Auth::user()->getId();
-        $ads = Advertisement::find($id);
-        $ads->update([
-            $ads->buyerId = $userid,
-            $ads->start_date = $request->input('forAMonthStart'),
-            $ads->end_date = date('Y-m-d', strtotime($ads->start_date . ' +30 days')),
-            $ads->save()
-        ]);
-        return redirect('/product/view/' .$id)->with('success','Išsinuomavote žaidimą mėnesiui!');
+        $rent_dates = new RentDates;
+        $rent_dates->advertisementId = $id;
+        $rent_dates->buyerId = $userid;
+        $rent_dates->start_date = $request->input('forAMonthStart');
+        $rent_dates->end_date = date('Y-m-d', strtotime($rent_dates->start_date . ' +30 days'));
+        $rent_dates->status = 'Rezervuota';
+        $rent_dates->save();
+        return redirect('/product/view/' .$id)->with('success','Išsiuntėte užklausą dėl žaidimo nuomos mėnesiui!');
     }
 
-    public function rentForAMonth2(Request $request, $id) {
-        $this->validate($request, [
-            'forAMonthStart2' => 'required',
-        ]);
-        $userid = Auth::user()->getId();
-        $ads = Advertisement::find($id);
-        $ads->update([
-            $ads->buyerId2 = $userid,
-            $ads->start_date2 = $request->input('forAMonthStart2'),
-            $ads->end_date2 = date('Y-m-d', strtotime($ads->start_date2 . ' +30 days')),
-            $ads->save()
-        ]);
-        return redirect('/product/view/' .$id)->with('success','Išsinuomavote žaidimą mėnesiui!');
+    public function acceptRent($id, $adId) {
+        $rent_dates = RentDates::find($id);
+        $rent_dates->status = 'Priimta';
+        $rent_dates->save();
+        return redirect('/product/view/' .$adId)->with('success','Žaidimas išnuomotas');
     }
 
-    public function rentForAMonth3(Request $request, $id) {
-        $this->validate($request, [
-            'forAMonthStart3' => 'required',
-        ]);
+    public function endRent($id, $adId) {
         $userid = Auth::user()->getId();
-        $ads = Advertisement::find($id);
-        $ads->update([
-            $ads->buyerId3 = $userid,
-            $ads->start_date3 = $request->input('forAMonthStart3'),
-            $ads->end_date3 = date('Y-m-d', strtotime($ads->start_date3 . ' +30 days')),
-            $ads->save()
-        ]);
-        return redirect('/product/view/' .$id)->with('success','Išsinuomavote žaidimą mėnesiui!');
-    }
-
-    public function endRent($id) {
-        $userid = Auth::user()->getId();
-        $ads = Advertisement::find($id);
-        $ads->update([
-            $ads->buyerId = null,
-            $ads->start_date = null,
-            $ads->end_date = null,
-            $ads->save()
-        ]);
-        return redirect('/product/view/' .$id)->with('success','Nuoma baigta');
-    }
-
-    public function endRent2($id) {
-        $userid = Auth::user()->getId();
-        $ads = Advertisement::find($id);
-        $ads->update([
-            $ads->buyerId2 = null,
-            $ads->start_date2 = null,
-            $ads->end_date2 = null,
-            $ads->save()
-        ]);
-        return redirect('/product/view/' .$id)->with('success','Nuoma baigta');
-    }
-
-    public function endRent3($id) {
-        $userid = Auth::user()->getId();
-        $ads = Advertisement::find($id);
-        $ads->update([
-            $ads->buyerId3 = null,
-            $ads->start_date3 = null,
-            $ads->end_date3 = null,
-            $ads->save()
-        ]);
-        return redirect('/product/view/' .$id)->with('success','Nuoma baigta');
+        $rent_dates = RentDates::find($id);
+        $rent_dates->delete();
+        return redirect('/product/view/' .$adId)->with('success','Nuoma atšaukta');
     }
 }
 

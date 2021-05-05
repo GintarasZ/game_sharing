@@ -268,23 +268,22 @@
             document.getElementById("forAWeekStart").setAttribute("min", today);
             document.getElementById("forAMonthStart").setAttribute("min", today);
         }
-        if(document.getElementsByClassName('forAMonthStart2').length>0) {
-            document.getElementById("forAMonthStart2_1").setAttribute("min", today);
-            document.getElementById("forAWeekStart2_1").setAttribute("min", today);
-            document.getElementById("forThreeDaysStart2_1").setAttribute("min", today);
-            document.getElementById("forADayStart2_1").setAttribute("min", today);
-        }
-        if(document.getElementsByClassName('forAWeekStart2').length>0) {
-            document.getElementById("forAWeekStart2_2").setAttribute("min", today);
-            document.getElementById("forThreeDaysStart2_2").setAttribute("min", today);
-            document.getElementById("forADayStart2_2").setAttribute("min", today);
-        }
-        if(document.getElementsByClassName('forThreeDaysStart2').length>0) {
-            document.getElementById("forThreeDaysStart2_3").setAttribute("min", today);
-            document.getElementById("forADayStart2_3").setAttribute("min", today);
-        }
-        if(document.getElementsByClassName('forADayStart2').length>0) {
-            document.getElementById("forADayStart2_4").setAttribute("min", today);
+    }
+
+    if(document.getElementsByClassName('collapsible').length>0) {
+        var coll = document.getElementsByClassName("collapsible");
+        var i;
+
+        for (i = 0; i < coll.length; i++) {
+            coll[i].addEventListener("click", function() {
+                this.classList.toggle("active");
+                var content = this.nextElementSibling;
+                if (content.style.maxHeight){
+                    content.style.maxHeight = null;
+                } else {
+                    content.style.maxHeight = content.scrollHeight + "px";
+                }
+            });
         }
     }
 

@@ -27,7 +27,7 @@ class CommentsController extends Controller
         $userid = Auth::user()->getId();
         $comments = Comments::find($id);
         $comments->delete();
-        return redirect('/product/view/'.$comments->postId)->with('success','Komentaras buvo paskelbtas.');
+        return redirect('/product/view/'.$comments->postId)->with('success','Komentaras sėkmingai ištrintas.');
     }
 
     public function viewFeedbackPage($id) {

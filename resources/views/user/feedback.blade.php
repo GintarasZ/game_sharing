@@ -34,6 +34,8 @@
                                     <p>Norėdami rašyti atsiliepimą, prisijunkite</p>
                                 </div>
                             </div>
+                        @elseif(Auth::user()->id == 13)
+
                         @else
                             <div class="col-lg-12 write_comment_margin">
                                 <div class="card-header"><strong>Palikti atsiliepimą</strong></div>
