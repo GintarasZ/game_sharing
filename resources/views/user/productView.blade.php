@@ -146,352 +146,129 @@
                                                     @endif
                                                 </div>
                                             </div>
+
+                                        <?php
+                                        //Nuoma///////////////////////////////////////////////////////////////////////////////
+                                        ?>
                                         <div class="card border-secondary wb-3">
                                             @if(is_null(Auth::user()))
                                                 <div class="card-header">Nuomos informacija</div>
                                                 <div class="card-body">
                                                     <p>Norėdami nuomotis žaidimą, prisijunkite</p>
                                                 </div>
+                                            @elseif(Auth::user()->id == 13)
                                             @else
-                                                @if(($ad->start_date) == null && ($ad->end_date) == null && ($ad->sellerId != Auth::user()->getId()))
-                                                    @if(($ad->buyerId3) != null && $ad->buyerId2 != null)
-                                                        <div class="card-header">Nuomos informacija</div>
-                                                        <div class="card-body">
-                                                            <h6>Žaidimas užimtas nuo: <span title="xtra large">{{$ad->start_date2}}, iki: {{$ad->end_date2}}</span></h6>
-                                                            <hr>
-                                                            <h6>Žaidimas užimtas nuo: <span title="xtra large">{{$ad->start_date3}}, iki: {{$ad->end_date3}}</span></h6>
-                                                    @elseif(($ad->buyerId3) != null && ($ad->buyerId3) != Auth::user()->getId() && ($ad->buyerId2) != Auth::user()->getId())
-                                                        <?php $start = $ad->start_date3?>
-                                                            <div class="card-header">Nuomos informacija</div>
-                                                            <div class="card-body">
-                                                            <h6>Žaidimas užimtas nuo: <span title="xtra large">{{$ad->start_date3}}, iki: {{$ad->end_date3}}</span></h6>
-                                                            <hr>
-                                                        @if(date("Y-m-d", strtotime(date("Y-m-d").'+ 30 days')) <= $ad->start_date3)
-                                                            <h6>Nuomotis iki kitos nuomos pradžios</h6>
-                                                            <form method="post" action="{{url('rentForAMonth2/product/view/' .$ad->id)}}">
-                                                                @csrf
-                                                                <input class="forAMonthStart2" type="date" id="forAMonthStart2_1" name="forAMonthStart2" max="<?php echo date('Y-m-d', strtotime($start. ' - 30 days')) ?>">
-                                                                <button type="submit" class="btn btn-primary rent_button half_width">Nuomotis mėnesiui</button>
-                                                            </form>
-                                                            <form method="post" action="{{url('rentForAWeek2/product/view/' .$ad->id)}}">
-                                                                @csrf
-                                                                <input class="forAWeekStart2" type="date" id="forAWeekStart2_1" name="forAWeekStart2" max="<?php echo date('Y-m-d', strtotime($start. ' - 7 days')) ?>">
-                                                                <button type="submit" class="btn btn-primary rent_button half_width">Nuomotis savaitei</button>
-                                                            </form>
-                                                            <form method="post" action="{{url('rentForThreeDays2/product/view/' .$ad->id)}}">
-                                                                @csrf
-                                                                <input class="forThreeDaysStart2" type="date" id="forThreeDaysStart2_1" name="forThreeDaysStart2" max="<?php echo date('Y-m-d', strtotime($start. ' - 3 days')) ?>">
-                                                                <button type="submit" class="btn btn-primary rent_button half_width">Nuomotis trims dienoms</button>
-                                                            </form>
-                                                            <form method="post" action="{{url('rentForADay2/product/view/' .$ad->id)}}">
-                                                                @csrf
-                                                                <input class="forADayStart2" type="date" id="forADayStart2_1" name="forADayStart2" max="<?php echo date('Y-m-d', strtotime($start. ' - 1 days')) ?>">
-                                                                <button type="submit" class="btn btn-primary rent_button half_width">Nuomotis dienai</button>
-                                                            </form>
-                                                        @elseif(date("Y-m-d", strtotime(date("Y-m-d").'+ 7 days')) <= $ad->start_date3)
-                                                            <h6>Nuomotis iki kitos nuomos pradžios</h6>
-                                                            <form method="post" action="{{url('rentForAWeek2/product/view/' .$ad->id)}}">
-                                                                @csrf
-                                                                <input class="forAWeekStart2" type="date" id="forAWeekStart2_2" name="forAWeekStart2" max="<?php echo date('Y-m-d', strtotime($start. ' - 7 days')) ?>">
-                                                                <button type="submit" class="btn btn-primary rent_button half_width">Nuomotis savaitei</button>
-                                                            </form>
-                                                            <form method="post" action="{{url('rentForThreeDays2/product/view/' .$ad->id)}}">
-                                                                @csrf
-                                                                <input class="forThreeDaysStart2" type="date" id="forThreeDaysStart2_2" name="forThreeDaysStart2" max="<?php echo date('Y-m-d', strtotime($start. ' - 3 days')) ?>">
-                                                                <button type="submit" class="btn btn-primary rent_button half_width">Nuomotis trims dienoms</button>
-                                                            </form>
-                                                            <form method="post" action="{{url('rentForADay2/product/view/' .$ad->id)}}">
-                                                                @csrf
-                                                                <input class="forADayStart2" type="date" id="forADayStart2_2" name="forADayStart2" max="<?php echo date('Y-m-d', strtotime($start. ' - 1 days')) ?>">
-                                                                <button type="submit" class="btn btn-primary rent_button half_width">Nuomotis dienai</button>
-                                                            </form>
-                                                        @elseif(date("Y-m-d", strtotime(date("Y-m-d").'+ 3 days')) <= $ad->start_date3)
-                                                            <h6>Nuomotis iki kitos nuomos pradžios</h6>
-                                                            <form method="post" action="{{url('rentForThreeDays2/product/view/' .$ad->id)}}">
-                                                                @csrf
-                                                                <input class="forThreeDaysStart2" type="date" id="forThreeDaysStart2_3" name="forThreeDaysStart2" max="<?php echo date('Y-m-d', strtotime($start. ' - 3 days')) ?>">
-                                                                <button type="submit" class="btn btn-primary rent_button half_width">Nuomotis trims dienoms</button>
-                                                            </form>
-                                                            <form method="post" action="{{url('rentForADay2/product/view/' .$ad->id)}}">
-                                                                @csrf
-                                                                <input class="forADayStart2" type="date" id="forADayStart2_3" name="forADayStart2" max="<?php echo date('Y-m-d', strtotime($start. ' - 1 days')) ?>">
-                                                                <button type="submit" class="btn btn-primary rent_button half_width">Nuomotis dienai</button>
-                                                            </form>
-                                                        @elseif(date("Y-m-d", strtotime(date("Y-m-d").'+ 1 days')) <= $ad->start_date3)
-                                                            <h6>Nuomotis iki kitos nuomos pradžios</h6>
-                                                            <form method="post" action="{{url('rentForADay2/product/view/' .$ad->id)}}">
-                                                                @csrf
-                                                                <input class="forADayStart2" type="date" id="forADayStart2_4" name="forADayStart2" max="<?php echo date('Y-m-d', strtotime($start. ' - 1 days')) ?>">
-                                                                <button type="submit" class="btn btn-primary rent_button half_width">Nuomotis dienai</button>
-                                                            </form>
-                                                        @endif
-                                                    @else
                                                 <div class="card-header">Nuomos informacija</div>
                                                 <div class="card-body">
-                                                    <form method="post" action="{{url('rentForADay/product/view/' .$ad->id)}}">
-                                                        @csrf
-                                                        <input class="forADayStart" type="date" id="forADayStart" name="forADayStart">
-                                                        <button type="submit" class="btn btn-primary rent_button half_width">Nuomotis dienai</button>
-                                                    </form>
-                                                    <form method="post" action="{{url('rentForThreeDays/product/view/' .$ad->id)}}">
-                                                        @csrf
-                                                        <input class="forThreeDaysStart" type="date" id="forThreeDaysStart" name="forThreeDaysStart">
-                                                        <button type="submit" class="btn btn-primary rent_button half_width">Nuomotis trims dienoms</button>
-                                                    </form>
-                                                    <form method="post" action="{{url('rentForAWeek/product/view/' .$ad->id)}}">
-                                                        @csrf
-                                                        <input class="forAWeekStart" type="date" id="forAWeekStart" name="forAWeekStart">
-                                                        <button type="submit" class="btn btn-primary rent_button half_width">Nuomotis savaitei</button>
-                                                    </form>
-                                                    <form method="post" action="{{url('rentForAMonth/product/view/' .$ad->id)}}">
-                                                        @csrf
-                                                        <input class="forAMonthStart" type="date" id="forAMonthStart" name="forAMonthStart">
-                                                        <button type="submit" class="btn btn-primary rent_button half_width">Nuomotis mėnesiui</button>
-                                                    </form>
-                                                    @endif
-                                                @elseif($ad->sellerId == Auth::user()->getId())
-                                                    @if(($ad->start_date) == null && ($ad->start_date2) == null && ($ad->start_date3) == null)
-                                                        <div class="card-header">Nuomos informacija</div>
-                                                        <div class="card-body">
-                                                            <h6>Žaidimas šiuo metu nenuomuojamas
-                                                            </h6>
-                                                            <hr>
-                                                    @elseif(($ad->start_date) != null && ($ad->start_date2) != null && ($ad->start_date3) != null)
-                                                        <div class="card-header">Nuomos informacija</div>
-                                                        <div class="card-body">
-                                                            @if($ad->buyerId != null)
-                                                                <h6>Žaidimas užimtas nuo: <span title="xtra large">{{$ad->start_date}}, iki: {{$ad->end_date}}</span></h6>
-                                                                <hr>
-                                                            @endif
-                                                            @if($ad->end_date != null && date("Y-m-d") > $ad->end_date)
-                                                                <form method="post" action="{{url('endRent/product/view/' .$ad->id)}}">
-                                                                    @csrf
-                                                                    <button type="submit" class="btn btn-primary">Baigti nuomą</button>
-                                                                </form>
-                                                                <hr>
-                                                            @endif
-                                                            @if($ad->buyerId2 != null)
-                                                                <h6>Žaidimas užimtas nuo: <span title="xtra large">{{$ad->start_date2}}, iki: {{$ad->end_date2}}</span></h6>
-                                                                <hr>
-                                                            @endif
-                                                            @if($ad->end_date2 != null && date("Y-m-d") > $ad->end_date2)
-                                                                <form method="post" action="{{url('endRent2/product/view/' .$ad->id)}}">
-                                                                    @csrf
-                                                                    <button type="submit" class="btn btn-primary">Baigti nuomą</button>
-                                                                </form>
-                                                                <hr>
-                                                            @endif
-                                                            @if($ad->buyerId3 != null)
-                                                                <h6>Žaidimas užimtas nuo: <span title="xtra large">{{$ad->start_date3}}, iki: {{$ad->end_date3}}</span></h6>
-                                                                <hr>
-                                                            @endif
-                                                            @if($ad->end_date3 != null && date("Y-m-d") > $ad->end_date3)
-                                                                <form method="post" action="{{url('endRent3/product/view/' .$ad->id)}}">
-                                                                    @csrf
-                                                                    <button type="submit" class="btn btn-primary">Baigti nuomą</button>
-                                                                </form>
-                                                            @endif
-                                                    @elseif(($ad->start_date2) != null && ($ad->start_date3) != null)
-                                                        <div class="card-header">Nuomos informacija</div>
-                                                        <div class="card-body">
-                                                            @if($ad->buyerId2 != null)
-                                                                <h6>Žaidimas užimtas nuo: <span title="xtra large">{{$ad->start_date2}}, iki: {{$ad->end_date2}}</span></h6>
-                                                                <hr>
-                                                            @endif
-                                                            @if($ad->end_date2 != null && date("Y-m-d") > $ad->end_date2)
-                                                                <form method="post" action="{{url('endRent2/product/view/' .$ad->id)}}">
-                                                                    @csrf
-                                                                    <button type="submit" class="btn btn-primary">Baigti nuomą</button>
-                                                                </form>
-                                                                <hr>
-                                                            @endif
-                                                            @if($ad->buyerId3 != null)
-                                                                <h6>Žaidimas užimtas nuo: <span title="xtra large">{{$ad->start_date3}}, iki: {{$ad->end_date3}}</span></h6>
-                                                                <hr>
-                                                            @endif
-                                                            @if($ad->end_date3 != null && date("Y-m-d") > $ad->end_date3)
-                                                                <form method="post" action="{{url('endRent3/product/view/' .$ad->id)}}">
-                                                                    @csrf
-                                                                    <button type="submit" class="btn btn-primary">Baigti nuomą</button>
-                                                                </form>
-                                                            @endif
-                                                    @elseif(($ad->start_date2) == null)
-                                                        <div class="card-header">Nuomos informacija</div>
-                                                        <div class="card-body">
-                                                            @if($ad->buyerId != null)
-                                                                <h6>Žaidimas užimtas nuo: <span title="xtra large">{{$ad->start_date}}, iki: {{$ad->end_date}}</span></h6>
-                                                                <hr>
-                                                            @endif
-                                                            @if($ad->end_date != null && date("Y-m-d") > $ad->end_date)
-                                                                <form method="post" action="{{url('endRent/product/view/' .$ad->id)}}">
-                                                                    @csrf
-                                                                    <button type="submit" class="btn btn-primary">Baigti nuomą</button>
-                                                                </form>
-                                                                <hr>
-                                                            @endif
-                                                            @if($ad->buyerId3 != null)
-                                                                <h6>Žaidimas užimtas nuo: <span title="xtra large">{{$ad->start_date3}}, iki: {{$ad->end_date3}}</span></h6>
-                                                                <hr>
-                                                            @endif
-                                                            @if($ad->end_date3 != null && date("Y-m-d") > $ad->end_date3)
-                                                                <form method="post" action="{{url('endRent3/product/view/' .$ad->id)}}">
-                                                                    @csrf
-                                                                    <button type="submit" class="btn btn-primary">Baigti nuomą</button>
-                                                                </form>
-                                                            @endif
-                                                    @elseif(($ad->start_date3) != null)
-                                                        <div class="card-header">Nuomos informacija</div>
-                                                        <div class="card-body">
-                                                            @if($ad->buyerId3 != null)
-                                                                <h6>Žaidimas užimtas nuo: <span title="xtra large">{{$ad->start_date3}}, iki: {{$ad->end_date3}}</span></h6>
-                                                                <hr>
-                                                            @endif
-                                                            @if($ad->end_date3 != null && date("Y-m-d") > $ad->end_date3)
-                                                                <form method="post" action="{{url('endRent3/product/view/' .$ad->id)}}">
-                                                                    @csrf
-                                                                    <button type="submit" class="btn btn-primary">Baigti nuomą</button>
-                                                                </form>
-                                                            @endif
-                                                    @else
-                                                        <div class="card-header">Nuomos informacija</div>
-                                                        <div class="card-body">
-                                                            <h6>Žaidimas užimtas nuo: <span title="xtra large">{{$ad->start_date}}, iki: {{$ad->end_date}}</span></h6>
-                                                            <hr>
-                                                            @if(date("Y-m-d") > $ad->end_date)
-                                                                <form method="post" action="{{url('endRent/product/view/' .$ad->id)}}">
-                                                                    @csrf
-                                                                    <button type="submit" class="btn btn-primary">Baigti nuomą</button>
-                                                                </form>
-                                                                <hr>
-                                                            @endif
-                                                            @if($ad->buyerId2 != null)
-                                                                <h6>Žaidimas užimtas nuo: <span title="xtra large">{{$ad->start_date2}}, iki: {{$ad->end_date2}}</span></h6>
-                                                                <hr>
-                                                            @endif
-                                                            @if($ad->end_date2 != null && date("Y-m-d") > $ad->end_date2)
-                                                                <form method="post" action="{{url('endRent2/product/view/' .$ad->id)}}">
-                                                                    @csrf
-                                                                    <button type="submit" class="btn btn-primary">Baigti nuomą</button>
-                                                                </form>
-                                                                <hr>
-                                                            @endif
-                                                            @if($ad->buyerId3 != null)
-                                                                <h6>Žaidimas užimtas nuo: <span title="xtra large">{{$ad->start_date3}}, iki: {{$ad->end_date3}}</span></h6>
-                                                                <hr>
-                                                            @endif
-                                                            @if($ad->end_date3 != null && date("Y-m-d") > $ad->end_date3)
-                                                                <form method="post" action="{{url('endRent3/product/view/' .$ad->id)}}">
-                                                                    @csrf
-                                                                    <button type="submit" class="btn btn-primary">Baigti nuomą</button>
-                                                                </form>
-                                                            @endif
-                                                    @endif
-                                                @else
-                                                <div class="card-header">Nuomos informacija</div>
-                                                <div class="card-body">
-                                                        <h6>Žaidimas užimtas nuo: <span title="xtra large">{{$ad->start_date}}, iki: {{$ad->end_date}}</span></h6>
-                                                        <hr>
-                                                    @if($ad->buyerId2 != null)
-                                                        <h6>Žaidimas užimtas nuo: <span title="xtra large">{{$ad->start_date2}}, iki: {{$ad->end_date2}}</span></h6>
-                                                        <hr>
-                                                    @endif
-                                                    @if($ad->buyerId3 != null)
-                                                        <h6>Žaidimas užimtas nuo: <span title="xtra large">{{$ad->start_date3}}, iki: {{$ad->end_date3}}</span></h6>
-                                                        <hr>
-                                                    @endif
-
-                                                    @if($ad->buyerId2 == null && $ad->buyerId != Auth::user()->getId() && $ad->buyerId3 != Auth::user()->getId())
-                                                        <?php $start = $ad->start_date?>
-                                                        @if(date("Y-m-d", strtotime(date("Y-m-d").'+ 30 days')) <= $ad->start_date)
-                                                            <h6>Nuomotis iki kitos nuomos pradžios</h6>
-                                                            <form method="post" action="{{url('rentForAMonth2/product/view/' .$ad->id)}}">
-                                                                @csrf
-                                                                <input class="forAMonthStart2" type="date" id="forAMonthStart2_1" name="forAMonthStart2" max="<?php echo date('Y-m-d', strtotime($start. ' - 30 days')) ?>">
-                                                                <button type="submit" class="btn btn-primary rent_button half_width">Nuomotis mėnesiui</button>
-                                                            </form>
-                                                            <form method="post" action="{{url('rentForAWeek2/product/view/' .$ad->id)}}">
-                                                                @csrf
-                                                                <input class="forAWeekStart2" type="date" id="forAWeekStart2_1" name="forAWeekStart2" max="<?php echo date('Y-m-d', strtotime($start. ' - 7 days')) ?>">
-                                                                <button type="submit" class="btn btn-primary rent_button half_width">Nuomotis savaitei</button>
-                                                            </form>
-                                                            <form method="post" action="{{url('rentForThreeDays2/product/view/' .$ad->id)}}">
-                                                                @csrf
-                                                                <input class="forThreeDaysStart2" type="date" id="forThreeDaysStart2_1" name="forThreeDaysStart2" max="<?php echo date('Y-m-d', strtotime($start. ' - 3 days')) ?>">
-                                                                <button type="submit" class="btn btn-primary rent_button half_width">Nuomotis trims dienoms</button>
-                                                            </form>
-                                                            <form method="post" action="{{url('rentForADay2/product/view/' .$ad->id)}}">
-                                                                @csrf
-                                                                <input class="forADayStart2" type="date" id="forADayStart2_1" name="forADayStart2" max="<?php echo date('Y-m-d', strtotime($start. ' - 1 days')) ?>">
-                                                                <button type="submit" class="btn btn-primary rent_button half_width">Nuomotis dienai</button>
-                                                            </form>
-                                                        @elseif(date("Y-m-d", strtotime(date("Y-m-d").'+ 7 days')) <= $ad->start_date)
-                                                            <h6>Nuomotis iki kitos nuomos pradžios</h6>
-                                                            <form method="post" action="{{url('rentForAWeek2/product/view/' .$ad->id)}}">
-                                                                @csrf
-                                                                <input class="forAWeekStart2" type="date" id="forAWeekStart2_2" name="forAWeekStart2" max="<?php echo date('Y-m-d', strtotime($start. ' - 7 days')) ?>">
-                                                                <button type="submit" class="btn btn-primary rent_button half_width">Nuomotis savaitei</button>
-                                                            </form>
-                                                            <form method="post" action="{{url('rentForThreeDays2/product/view/' .$ad->id)}}">
-                                                                @csrf
-                                                                <input class="forThreeDaysStart2" type="date" id="forThreeDaysStart2_2" name="forThreeDaysStart2" max="<?php echo date('Y-m-d', strtotime($start. ' - 3 days')) ?>">
-                                                                <button type="submit" class="btn btn-primary rent_button half_width">Nuomotis trims dienoms</button>
-                                                            </form>
-                                                            <form method="post" action="{{url('rentForADay2/product/view/' .$ad->id)}}">
-                                                                @csrf
-                                                                <input class="forADayStart2" type="date" id="forADayStart2_2" name="forADayStart2" max="<?php echo date('Y-m-d', strtotime($start. ' - 1 days')) ?>">
-                                                                <button type="submit" class="btn btn-primary rent_button half_width">Nuomotis dienai</button>
-                                                            </form>
-                                                        @elseif(date("Y-m-d", strtotime(date("Y-m-d").'+ 3 days')) <= $ad->start_date)
-                                                            <h6>Nuomotis iki kitos nuomos pradžios</h6>
-                                                            <form method="post" action="{{url('rentForThreeDays2/product/view/' .$ad->id)}}">
-                                                                @csrf
-                                                                <input class="forThreeDaysStart2" type="date" id="forThreeDaysStart2_3" name="forThreeDaysStart2" max="<?php echo date('Y-m-d', strtotime($start. ' - 3 days')) ?>">
-                                                                <button type="submit" class="btn btn-primary rent_button half_width">Nuomotis trims dienoms</button>
-                                                            </form>
-                                                            <form method="post" action="{{url('rentForADay2/product/view/' .$ad->id)}}">
-                                                                @csrf
-                                                                <input class="forADayStart2" type="date" id="forADayStart2_3" name="forADayStart2" max="<?php echo date('Y-m-d', strtotime($start. ' - 1 days')) ?>">
-                                                                <button type="submit" class="btn btn-primary rent_button half_width">Nuomotis dienai</button>
-                                                            </form>
-                                                        @elseif(date("Y-m-d", strtotime(date("Y-m-d").'+ 1 days')) <= $ad->start_date)
-                                                            <h6>Nuomotis iki kitos nuomos pradžios</h6>
-                                                            <form method="post" action="{{url('rentForADay2/product/view/' .$ad->id)}}">
-                                                                @csrf
-                                                                <input class="forADayStart2" type="date" id="forADayStart2_4" name="forADayStart2" max="<?php echo date('Y-m-d', strtotime($start. ' - 1 days')) ?>">
-                                                                <button type="submit" class="btn btn-primary rent_button half_width">Nuomotis dienai</button>
-                                                            </form>
+                                                    @if(isset($rent_dates))
+                                                        @if(count($rent_dates)>0)
+                                                            @foreach($rent_dates as $rent_date)
+                                                                @if(($rent_date->advertisementId)==($ad->id))
+                                                                    @if(($rent_date->buyerId == Auth::user()->getId()) && ($rent_date->status == 'Priimta'))
+                                                                        <h6>Jūs nuomojatės žaidimą nuo: <span title="xtra large">{{$rent_date->start_date}} iki: {{$rent_date->end_date}}</span></h6>
+                                                                        <hr>
+                                                                    @elseif(($rent_date->buyerId == Auth::user()->getId()) && ($rent_date->status == 'Rezervuota'))
+                                                                        <h6>Jūsų užklausa dėl žaidimo nuomos nuo: <span title="xtra large">{{$rent_date->start_date}} iki: {{$rent_date->end_date}} išsiųsta.</span></h6>
+                                                                        <hr>
+                                                                    @endif
+                                                                @endif
+                                                            @endforeach
                                                         @endif
                                                     @endif
-
-                                                    @if($ad->buyerId3 == null && $ad->buyerId != Auth::user()->getId() && $ad->buyerId2 != Auth::user()->getId())
-                                                        <h6>Nuomotis po kitos nuomos pabaigos</h6>
-                                                        <form method="post" action="{{url('rentForAMonth3/product/view/' .$ad->id)}}">
+                                                    <?php $items = []; ?>
+                                                    @if(isset($rent_dates))
+                                                        @if(count($rent_dates)>0)
+                                                            @foreach($rent_dates as $rent_date)
+                                                                @if(($rent_date->advertisementId)==($ad->id))
+                                                                    <?php $items[] = $rent_date->buyerId; ?>
+                                                                @endif
+                                                            @endforeach
+                                                        @endif
+                                                    @endif
+                                                    @if($ad->sellerId != Auth::user()->getId() && !(in_array(Auth::user()->getId(), $items)))
+                                                        <h6>Nuomotis žaidimą</h6>
+                                                        <form method="post" action="{{url('rentForAMonth/product/view/' .$ad->id)}}">
                                                             @csrf
-                                                            <input class="forAMonthStart3" type="date" id="forAMonthStart3_1" name="forAMonthStart3" min="<?php echo $ad->end_date ?>">
+                                                            <input class="forAMonthStart" type="date" id="forAMonthStart" name="forAMonthStart" max="">
                                                             <button type="submit" class="btn btn-primary rent_button half_width">Nuomotis mėnesiui</button>
                                                         </form>
-                                                        <form method="post" action="{{url('rentForAWeek3/product/view/' .$ad->id)}}">
+                                                        <form method="post" action="{{url('rentForAWeek/product/view/' .$ad->id)}}">
                                                             @csrf
-                                                            <input class="forAWeekStart3" type="date" id="forAWeekStart3_1" name="forAWeekStart3" min="<?php echo $ad->end_date ?>">
+                                                            <input class="forAWeekStart" type="date" id="forAWeekStart" name="forAWeekStart" max="">
                                                             <button type="submit" class="btn btn-primary rent_button half_width">Nuomotis savaitei</button>
                                                         </form>
-                                                        <form method="post" action="{{url('rentForThreeDays3/product/view/' .$ad->id)}}">
+                                                        <form method="post" action="{{url('rentForThreeDays/product/view/' .$ad->id)}}">
                                                             @csrf
-                                                            <input class="forThreeDaysStart3" type="date" id="forThreeDaysStart3_1" name="forThreeDaysStart3" min="<?php echo $ad->end_date ?>">
+                                                            <input class="forThreeDaysStart" type="date" id="forThreeDaysStart" name="forThreeDaysStart" max="">
                                                             <button type="submit" class="btn btn-primary rent_button half_width">Nuomotis trims dienoms</button>
                                                         </form>
-                                                        <form method="post" action="{{url('rentForADay3/product/view/' .$ad->id)}}">
+                                                        <form method="post" action="{{url('rentForADay/product/view/' .$ad->id)}}">
                                                             @csrf
-                                                            <input class="forADayStart3" type="date" id="forADayStart3_1" name="forADayStart3" min="<?php echo $ad->end_date ?>">
+                                                            <input class="forADayStart" type="date" id="forADayStart" name="forADayStart" max="">
                                                             <button type="submit" class="btn btn-primary rent_button half_width">Nuomotis dienai</button>
                                                         </form>
                                                     @endif
-
-                                                @endif
+                                                    @if(($ad->sellerId != Auth::user()->getId()))
+                                                            @if(isset($rent_dates))
+                                                                @if(count($rent_dates)>0)
+                                                                    @foreach($rent_dates as $rent_date)
+                                                                        @if(($rent_date->advertisementId)==($ad->id) && ($rent_date->buyerId != Auth::user()->getId()) && ($rent_date->status == 'Priimta'))
+                                                                            <hr>
+                                                                            <h6>Žaidimas užimtas nuo: <span title="xtra large">{{$rent_date->start_date}} iki: {{$rent_date->end_date}}</span></h6>
+                                                                        @endif
+                                                                    @endforeach
+                                                                @endif
+                                                            @endif
+                                                    @elseif($ad->sellerId == Auth::user()->getId())
+                                                        @if(isset($rent_dates))
+                                                            @if(count($rent_dates)>0)
+                                                                @foreach($rent_dates as $rent_date)
+                                                                    @if((($rent_date->advertisementId)==($ad->id)) && ($rent_date->status == 'Priimta'))
+                                                                        <h6>Žaidimas užimtas nuo: <span title="xtra large">{{$rent_date->start_date}} iki: {{$rent_date->end_date}}</span></h6>
+                                                                        <hr>
+                                                                        @if($rent_date->end_date != null && date("Y-m-d") > $rent_date->end_date)
+                                                                            <form method="post" action="{{url('endRent/product/view/' .$rent_date->id . '/' . $ad->id)}}">
+                                                                                @csrf
+                                                                                <button type="submit" class="btn btn-primary">Baigti nuomą</button>
+                                                                            </form>
+                                                                            <hr>
+                                                                        @endif
+                                                                    @elseif((($rent_date->advertisementId)==($ad->id)) && ($rent_date->status == 'Rezervuota'))
+                                                                            @if(isset($spec_user))
+                                                                                @if(count($spec_user)>0)
+                                                                                    @foreach($spec_user as $row)
+                                                                                        @if($row->id == $rent_date->buyerId)
+                                                                                            <a href="{{url('/feedback/'.$row->id)}}"><h6>{{$row->name}}</h6></a>
+                                                                                        @endif
+                                                                                    @endforeach
+                                                                                @endif
+                                                                            @endif
+                                                                        <h6>nori išsinuomoti žaidimą nuo: <span title="xtra large">{{$rent_date->start_date}} iki: {{$rent_date->end_date}}</span></h6>
+                                                                        <div class="row">
+                                                                            <div class="col-md-6">
+                                                                                <form method="post" action="{{url('acceptRent/product/view/' .$rent_date->id . '/' . $ad->id)}}">
+                                                                                    @csrf
+                                                                                    <button type="submit" class="btn btn-primary">Išnuomoti žaidimą</button>
+                                                                                </form>
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <form method="post" action="{{url('endRent/product/view/' .$rent_date->id . '/' . $ad->id)}}">
+                                                                                    @csrf
+                                                                                    <button type="submit" class="btn btn-primary">Atšaukti rezervaciją</button>
+                                                                                </form>
+                                                                            </div>
+                                                                        </div>
+                                                                        <hr>
+                                                                    @endif
+                                                                @endforeach
+                                                            @endif
+                                                        @endif
+                                                    @endif
                                                 </div>
                                             @endif
                                         </div>
                                     </div>
+
                                     @if(is_null(Auth::user()))
                                     <div class="col-lg-12">
                                         <div class="card-header"><strong>Pridėti komentarą</strong></div>
@@ -499,6 +276,8 @@
                                             <p>Norėdami rašyti komentarą, prisijunkite</p>
                                         </div>
                                     </div>
+                                    @elseif(Auth::user()->id == 13)
+
                                     @else
                                     <div class="col-lg-12 write_comment_margin">
                                         <div class="card-header"><strong>Pridėti komentarą</strong></div>

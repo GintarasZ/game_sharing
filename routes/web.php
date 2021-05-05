@@ -75,32 +75,14 @@ Route::post('/deleteFeedback{id}', [App\Http\Controllers\CommentsController::cla
 
 Route::post('/rentForADay/product/view/{id}', [App\Http\Controllers\UserController::class, 'rentForADay']);
 
-Route::post('/rentForADay2/product/view/{id}', [App\Http\Controllers\UserController::class, 'rentForADay2']);
-
-Route::post('/rentForADay3/product/view/{id}', [App\Http\Controllers\UserController::class, 'rentForADay3']);
-
 Route::post('/rentForThreeDays/product/view/{id}', [App\Http\Controllers\UserController::class, 'rentForThreeDays']);
-
-Route::post('/rentForThreeDays2/product/view/{id}', [App\Http\Controllers\UserController::class, 'rentForThreeDays2']);
-
-Route::post('/rentForThreeDays3/product/view/{id}', [App\Http\Controllers\UserController::class, 'rentForThreeDays3']);
 
 Route::post('/rentForAWeek/product/view/{id}', [App\Http\Controllers\UserController::class, 'rentForAWeek']);
 
-Route::post('/rentForAWeek2/product/view/{id}', [App\Http\Controllers\UserController::class, 'rentForAWeek2']);
-
-Route::post('/rentForAWeek3/product/view/{id}', [App\Http\Controllers\UserController::class, 'rentForAWeek3']);
-
 Route::post('/rentForAMonth/product/view/{id}', [App\Http\Controllers\UserController::class, 'rentForAMonth']);
 
-Route::post('/rentForAMonth2/product/view/{id}', [App\Http\Controllers\UserController::class, 'rentForAMonth2']);
+Route::post('/acceptRent/product/view/{id}/{adId}', [App\Http\Controllers\UserController::class, 'acceptRent']);
 
-Route::post('/rentForAMonth3/product/view/{id}', [App\Http\Controllers\UserController::class, 'rentForAMonth3']);
-
-Route::post('/endRent/product/view/{id}', [App\Http\Controllers\UserController::class, 'endRent']);
-
-Route::post('/endRent2/product/view/{id}', [App\Http\Controllers\UserController::class, 'endRent2']);
-
-Route::post('/endRent3/product/view/{id}', [App\Http\Controllers\UserController::class, 'endRent3']);
+Route::post('/endRent/product/view/{id}/{adId}', [App\Http\Controllers\UserController::class, 'endRent']);
 
 Route::get('/howTo', [App\Http\Controllers\HomeController::class, 'howToUse']);

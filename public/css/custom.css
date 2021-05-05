@@ -340,6 +340,47 @@ body {
     margin-right: 10px;
 }
 
+.collapsible {
+    border-radius: 10px;
+    background-color: #007CC7;
+    color: white;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 15px;
+}
+
+.collapsible:after {
+    content: '\002B';
+    color: white;
+    font-weight: bold;
+    float: right;
+    margin-left: 5px;
+}
+
+.active, .collapsible:hover {
+    background-color: #4DA8DA;
+}
+
+.active:after {
+    content: "\2212";
+}
+
+.content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+}
+
+.instruction_image {
+    max-width: 400px;
+    display: block;
+    margin: 20px auto;
+}
+
 @media only screen and (max-width: 992px) {
     .card-body.productView_info {
         margin-top: 0;
@@ -357,5 +398,15 @@ body {
     .form-group.row.mobile_search {
         margin-left: auto;
         margin-right: auto;
+    }
+
+    .row.ads_row {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media only screen and (max-width: 450px) {
+    .row.ads_row {
+        grid-template-columns: 1fr;
     }
 }

@@ -80,10 +80,10 @@ use App\Models\Cities;
                                     </div>
 
                                     <div class="row">
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-12">
                                             <div class="form-group">
                                                 <label><strong>Slaptažodis</strong></label>
-                                                <input type="password" class="form-control" name="password" value="">
+                                                <input type="password" class="form-control" name="password" placeholder="Įveskite naują slaptažodį arba palikite tuščią, jei nenorite jo keisti" value="">
                                             </div>
                                             <label></label>
                                         </div>
